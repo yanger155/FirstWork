@@ -3,7 +3,7 @@ namespace controllers;
 
 class TestController
 {
-    public function send()
+    public function sendmail()
     {
         // require_once '/vendor/autoload.php';
         // Create the Transport

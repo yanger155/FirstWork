@@ -19,10 +19,10 @@
 						<div class="login_title">
 							注册
 						</div>
-						<form action="#" method="post">
+						<form action="/regist/doRegist" method="post">
 							
 							<div class="form_text_ipt">
-								<input name="username" type="text" placeholder="手机号/邮箱">
+								<input name="phone" type="text" placeholder="手机号/邮箱">
 							</div>
 							<div class="ececk_warning"><span>手机号/邮箱不能为空</span></div>
 							<div class="form_text_ipt">
@@ -36,6 +36,11 @@
 							<div class="form_text_ipt">
 								<input name="code" type="text" placeholder="验证码">
 							</div>
+
+							<!-- <div class="form_text_ipt"> -->
+								<input type="button" value="发送短信验证码" id="send">
+							<!-- </div> -->
+
 							<div class="ececk_warning"><span>验证码不能为空</span></div>
 							
 							<div class="form_btn">
@@ -61,5 +66,38 @@
 		</div>
 		<script type="text/javascript" src="/js/jquery.min.js" ></script>
 		<script type="text/javascript" src="/js/common.js" ></script>
+		<script>
+			
+				$("#send").click(function(){
+
+					var phone = $("input[name=phone]").val();
+					// alert(username);
+					$.ajax({
+						type:"GET",
+						url:"/regist/sendCode",
+						data: {phone:phone},
+						dataType: "json",
+						// success:function(data){
+						// 	alert(data);
+						// },
+						// error:function(error){
+						// 	console.log(error);
+						// }
+					});
+				});
+		</script>
 	</body>
 </html>
+
+
+
+
+<!-- ajax请求sendcode方法（定时器）:
+	生成code  接收用户名   存入redis（设置过期时间）  消息队列放入（字符串）
+	  
+	消息队列取出（堵塞）     转成数组     发送到用户手机（短信类包/邮件类包） 
+
+	处理注册表单，redis里取验证码比对。
+
+
+-->

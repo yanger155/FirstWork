@@ -11,6 +11,14 @@ class ComposerStaticInit9ebeb4a96442c7182ee9717afbeea1cd
     );
 
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'Predis\\' => 7,
+        ),
+        'F' => 
+        array (
+            'Flc\\Dysms\\' => 10,
+        ),
         'E' => 
         array (
             'Egulias\\EmailValidator\\' => 23,
@@ -18,6 +26,14 @@ class ComposerStaticInit9ebeb4a96442c7182ee9717afbeea1cd
     );
 
     public static $prefixDirsPsr4 = array (
+        'Predis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/predis/predis/src',
+        ),
+        'Flc\\Dysms\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/flc/dysms/src',
+        ),
         'Egulias\\EmailValidator\\' => 
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',

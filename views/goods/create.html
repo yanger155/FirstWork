@@ -35,7 +35,7 @@
                 <li>
                     <a href="#"><i class="icon-font">&#xe003;</i>常用操作</a>
                     <ul class="sub-menu">
-                        <li><a href="design.html"><i class="icon-font">&#xe008;</i>作品管理</a></li>
+                        <li><a href="design.html"><i class="icon-font">&#xe008;</i>商品管理</a></li>
                        
                     </ul>
                 </li>
@@ -59,36 +59,46 @@
         </div>
         <div class="result-wrap">
             <div class="result-content">
-                <form action="/article/insert" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <form action="/goods/insert" method="post" id="myform" name="myform" enctype="multipart/form-data">
                     <table class="insert-tab" width="100%">
                         <tbody>
                             <tr>
-                                <th width="120"><i class="require-red">*</i>分类：</th>
+                                <th width="120"><i class="require-red">*</i>一级分类：</th>
                                 <td>
-                                    <select name="colId" id="catid" class="required">
+                                    <!-- 内容一旦改变就触发事件 -->
+                                    <!-- 执行ajax获取数据放到catid2中 -->
+                                    <select name="catid1" id="catid1" class="required">
                                         <option value="">请选择</option>
-                                        <option value="19">精品界面</option><option value="20">推荐界面</option>
+                                        <?php foreach($data as $v): ?>
+                                        <option value="<?= $v['id']?>"><?=$v['cat_name']?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <th><i class="require-red">*</i>分类名</th>
+                                <th width="120"><i class="require-red">*</i>二级分类：</th>
                                 <td>
-                                    <input class="common-text required" id="cat_name" name="title" size="50" value="" type="text">
+                                    <select name="catid2" id="catid2" class="required">
+                                        <option value="">请选择</option>
+                                       
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
-                                <th>内容：</th>
-                                <td><textarea name="content" class="common-textarea" id="content" cols="30" style="width: 98%;" rows="10"></textarea></td>
-                            </tr>
-                            <tr>
-                                <th>状态</th>
+                                <th width="120"><i class="require-red">*</i>三级分类：</th>
                                 <td>
-                                    <input type="radio" name="is_show" value="0">不显示
-                                    <input type="radio" name="is_show" value="1">显示
+                                    <select name="catid3" id="catid3" class="required">
+                                        <option value="">请选择</option>
+                         
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
+                                <th><i class="require-red">*</i>分类名称</th>
+                                <td>
+                                    <input class="common-text required" id="title" name="title" size="50" value="" type="text">
+                                </td>
+                            </tr>
                                 <th></th>
                                 <td>
                                     <input class="btn btn-primary btn6 mr10" value="提交" type="submit">
@@ -105,3 +115,45 @@
 </div>
 </body>
 </html>
+<script type="text/javascript" src="/js/jquery.min.js" ></script>
+<script type="text/javascript" src="/js/common.js" ></script>
+<script>
+
+
+    // 当一级分类项被选中的时候，触发ajax
+    $("select[name=catid1]").change(function(){
+
+        // alert('aaaa');
+
+        // 获取输入框里的id
+        var id = $(this).val()
+      
+
+        // id值不能为空
+        if(id != ""){
+            $.ajax({
+                type:"GET",
+                url:"/goods/ajax_getCat?parent_id ="+id,
+                dataType:"json",
+                success:function(data)
+                {
+                    //   alert(id);
+                    // console.log(data);
+                    var str = '';
+                    for(var i=0;i<data.length;i++)
+                    {
+                        str += '<option value='+data[i].id+'>'+data[i].cat_name+'</option>';
+                        
+                    }
+
+                    // alert(str);
+
+                    $('select[name=catid2]').html(str);
+                    $('select[name=catid2]').trigger('change'); 
+                }
+            });
+        }
+    });
+   
+
+</script>

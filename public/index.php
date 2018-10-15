@@ -23,18 +23,36 @@ spl_autoload_register('upload');
 
 
 //解析路由
-if(isset($_SERVER['PATH_INFO']))
+if(php_sapi_name() == 'cli')
 {
-    // /index/index
-    $url = explode('/',$_SERVER['PATH_INFO']);
-    $controller = ucfirst($url[1]);
-    $action = $url[2];
+    $controller = ucfirst($argv[1]);
+    $action = $argv[2];
+
+    // $fullController = 'controllers\\'.$controller.'Controller';
+    // $_C = new $fullController;
+    // $_C->$action();
 }
 else
 {
-    $controller = 'Index';
-    $action = 'index';
+    if(isset($_SERVER['PATH_INFO']))
+    {
+        // /index/index
+        $url = explode('/',$_SERVER['PATH_INFO']);
+        $controller = ucfirst($url[1]);
+        $action = $url[2];
+        
+    }
+    else
+    {
+        $controller = 'Index';
+        $action = 'index';
+    }
+
+    // $fullController = 'controllers\\'.$controller.'Controller';
+    // $_C = new $fullController;
+    // $_C->$action();
 }
+
 // 拼接地址
 $fullController = 'controllers\\'.$controller.'Controller';
 $_C = new $fullController;

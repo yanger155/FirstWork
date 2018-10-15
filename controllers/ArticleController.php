@@ -3,8 +3,9 @@ namespace controllers;
 
 use models\Article;
 
-class ArticleController extends BaseController
-{
+class ArticleController{
+
+
     public function list()
     {
         $model = new Article;

@@ -63,14 +63,9 @@
                     <table class="insert-tab" width="100%">
                         <tbody>
                             <tr>
-                                <th width="120"><i class="require-red">*</i>分类：</th>
+                                <th><i class="require-red">*</i>分类名</th>
                                 <td>
-                                    <select name="colId" id="catid" class="required">
-                                        <option value="">请选择</option>
-                                        <?php foreach($data as $v): ?>
-                                        <option value="<?=$v['id']?>"><?=$v['cat_name']?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <input class="common-text required" id="cat_name" name="title" size="50" value="" type="text">
                                 </td>
                             </tr>
                             <tr>
@@ -105,10 +100,3 @@
 </div>
 </body>
 </html>
-
-<!-- 任务：
-        上传多张图片
-        批量上传
- -->
-
-<!-- 预览图片 -->

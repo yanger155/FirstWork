@@ -10,15 +10,21 @@ class ArticleController{
     {
         $model = new Article;
         $data = $model->search();
+        // echo "<pre>";
+        // var_dump($data);
+        // exit;
+
        
-        view('article/list',[
-            'data' => $data,
-        ]);
+        view('article/list',$data);
     }
 
     public function create()
     {
-        view('article/create');
+        $model = new Article;
+        $data = $model -> findCategory();
+        view('article/create',[
+            'data' => $data,
+        ]);
     }
 
     public function insert()
@@ -27,6 +33,7 @@ class ArticleController{
         $title = $_POST['title'];
         $content = $_POST['content'];
         $is_show = $_POST['is_show'];
+
         // echo "<pre>";
         // var_dump($data);
         // exit;
@@ -34,6 +41,19 @@ class ArticleController{
         $model->insert($title,$content,$is_show);
         redirect('/article/list');
 
+    }
+
+    public function category()
+    {
+        view('article/category');
+    }
+
+    public function categoryInsert()
+    {
+        $cat_name = $_POST['cat_name'];
+        $model = new Article;
+        $model->categoryInsert($cat_name);
+        redirect('/article/list');
     }
 
     public function edit()

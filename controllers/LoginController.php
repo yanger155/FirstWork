@@ -17,15 +17,20 @@ class LoginController
         $pwd = md5($_POST['password']);
 
         $model = new User;
-        $result = $model->findUser($username);
-        if($result)
+        $data = $model->findUser($phone);
+        // echo "<pre>";
+        // var_dump($data);
+        // exit;
+        if(!$data)
         {
-            
-            view('index/index');
+            echo "用户名不存在";
         }
         else
         {
-            echo "用户名不存在";
+            $_SESSION['id'] = $data['id'];
+            $_SESSION['username'] = $data['username'];
+            $_SESSION['pwd'] = $data['password'];
+            redirect('/article/list');
         }
         
 

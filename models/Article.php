@@ -61,7 +61,7 @@ class Article extends Model
         $stmt = self::$pdo->prepare("SELECT COUNT(*) FROM article WHERE $where");
         $stmt->execute($value);
         // 取出符合条件的条数
-        $count = $stmt->fetch(FETCH_COLUMN);
+        $count = $stmt->fetch(PDO::FETCH_COLUMN);
 
         $pageCount = ceil($count/$perpage);
 
@@ -70,16 +70,20 @@ class Article extends Model
         for($i=1; $i<=$pageCount; $i++)
         {
             $params = getUrlParamas(['page']); 
-            $btns .= "<a href='?{$params}page=$i'> $i </a>";
+            $btns .= "<a href='?{$params}page=$i' > $i </a>";
         }
 
-
-
-        // $sql = "select * from article";
+        $sql = "select * from article where $where order by $odby $odway limit $startCount,$perpage";
         $stmt = self::$pdo->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data =  $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        return [
+            'btns' => $btns,
+            'data' => $data,
+        ];
     }
+
+
 
     public function insert($title,$content,$is_show)
     {
@@ -92,13 +96,31 @@ class Article extends Model
         ]);
     }
 
+
+
+    public function categoryInsert($cat_name)
+    {
+        $stmt = self::$pdo->prepare("INSERT INTO category(cat_name) VALUES(?)");
+        $stmt->execute([$cat_name]);
+        // echo self::$pdo->lastInsertId();
+    }
+
+
+    public function findCategory()
+    {
+        $stmt = self::$pdo->query("select * from category");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function findOne($id)
     {
         $stmt = self::$pdo->prepare('select * from article where id = ?');
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-
     }
+
+
 
     public function update($title,$content,$is_show,$id)
     {
@@ -108,8 +130,7 @@ class Article extends Model
             $content,
             $is_show,
             $id
-        ]);
-        
+        ]);  
     }
 
     

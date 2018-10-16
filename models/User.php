@@ -12,9 +12,9 @@ class User extends Model
         $stmt->execute([
             $username,
         ]);
-        $count = $stmt->fetch(\PDO::FETCH_COLUMN);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
         // echo $count;
-        return $count;
+        
 
     }
    

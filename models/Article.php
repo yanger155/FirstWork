@@ -87,6 +87,7 @@ class Article extends Model
 
     public function insert($title,$content,$is_show)
     {
+        // echo $title, $content, $is_show, $_SESSION['id'];
         $stmt = self::$pdo->prepare('INSERT INTO article(title,content,is_show,user_id) VALUES(?,?,?,?)');
         $stmt->execute([
             $title,
@@ -94,12 +95,12 @@ class Article extends Model
             $is_show,
             $_SESSION['id']
         ]);
-        echo self::$pdo->lastInsertId();
+        return self::$pdo->lastInsertId();
 
     }
 
 
-
+    // 新的文章分类的添加
     public function categoryInsert($cat_name)
     {
         $stmt = self::$pdo->prepare("INSERT INTO category(cat_name) VALUES(?)");
@@ -107,14 +108,14 @@ class Article extends Model
         // echo self::$pdo->lastInsertId();
     }
 
-
+    //已有的文章分类的查询
     public function findCategory()
     {
         $stmt = self::$pdo->query("select * from category");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
+    // 指定一篇文章的查询
     public function findOne($id)
     {
         $stmt = self::$pdo->prepare('select * from article where id = ?');
@@ -145,15 +146,16 @@ class Article extends Model
 
     }
 
-
-    public function uploadAll($data)
+    // 处理批量上传的图片
+    public function uploadAll($articleId)
     {
-
+        // $_FILES是全局的，不用传
+        // echo "<pre>";
+        // var_dump($_FILES);
+        // exit;
         // 创建路径
         $root = ROOT.'/public/uploads/';
         $date = date('Ymd');
-        // echo $root.$date;
-        // exit;
         if(!is_dir($root.$date))
         {
             // 创建目录
@@ -165,8 +167,15 @@ class Article extends Model
             $name = md5(time().rand(1,9999));
             $ext = strrchr($v,'.');
             $name = $name.$ext;
-
+            // 移动路径
             move_uploaded_file($_FILES['image']['tmp_name'][$k],$root.$date.'/'.$name);
+            $url_path = '/uploads/'.$date.'/'.$name;
+
+            $stmt = self::$pdo->prepare("INSERT INTO article_image(url_path,article_id) VALUES(?,?)");
+            $stmt->execute([
+                $url_path,
+                $articleId,
+            ]);
         }   
     }
 

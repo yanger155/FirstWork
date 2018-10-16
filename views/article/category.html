@@ -59,28 +59,13 @@
         </div>
         <div class="result-wrap">
             <div class="result-content">
-                <form action="/article/insert" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <form action="/article/categoryInsert" method="post" id="myform" name="myform" enctype="multipart/form-data">
                     <table class="insert-tab" width="100%">
                         <tbody>
                             <tr>
                                 <th><i class="require-red">*</i>分类名</th>
                                 <td>
-                                    <input class="common-text required" id="cat_name" name="title" size="50" value="" type="text">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>缩略图：</th>
-                                <td><input type="file" name="image"></td>
-                            </tr>
-                            <tr>
-                                <th>内容：</th>
-                                <td><textarea name="content" class="common-textarea" id="content" cols="30" style="width: 98%;" rows="10"></textarea></td>
-                            </tr>
-                            <tr>
-                                <th>状态</th>
-                                <td>
-                                    <input type="radio" name="is_show" value="0">不显示
-                                    <input type="radio" name="is_show" value="1">显示
+                                    <input class="common-text required" id="cat_name" name="cat_name" size="50" value="" type="text">
                                 </td>
                             </tr>
                             <tr>

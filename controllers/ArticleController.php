@@ -36,16 +36,10 @@ class ArticleController{
         $content = $_POST['content'];
         $is_show = $_POST['is_show'];
 
-        // echo "<pre>";
-        // var_dump($_POST);
-        // exit;
         $articleId = $model->insert($title,$content,$is_show);   
 
-
-        // 保存图片
-        $model -> uploadAll($_FILES);
-
-        // redirect('/article/list');
+        $model -> uploadAll($articleId);
+        redirect('/article/list');
     }
 
     public function edit()

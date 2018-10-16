@@ -94,6 +94,8 @@ class Article extends Model
             $is_show,
             $_SESSION['id']
         ]);
+        echo self::$pdo->lastInsertId();
+
     }
 
 
@@ -142,4 +144,30 @@ class Article extends Model
         ]);
 
     }
+
+
+    public function uploadAll($data)
+    {
+
+        // 创建路径
+        $root = ROOT.'/public/uploads/';
+        $date = date('Ymd');
+        // echo $root.$date;
+        // exit;
+        if(!is_dir($root.$date))
+        {
+            // 创建目录
+            mkdir($root.$date);
+        }
+
+        foreach($_FILES['image']['name'] as $k=>$v)
+        {
+            $name = md5(time().rand(1,9999));
+            $ext = strrchr($v,'.');
+            $name = $name.$ext;
+
+            move_uploaded_file($_FILES['image']['tmp_name'][$k],$root.$date.'/'.$name);
+        }   
+    }
+
 }

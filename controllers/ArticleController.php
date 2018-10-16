@@ -29,31 +29,23 @@ class ArticleController{
 
     public function insert()
     {
-        // 接收表单
+        $model = new Article;
+
+        // 添加文章
         $title = $_POST['title'];
         $content = $_POST['content'];
         $is_show = $_POST['is_show'];
 
         // echo "<pre>";
-        // var_dump($data);
+        // var_dump($_POST);
         // exit;
-        $model = new Article;
-        $model->insert($title,$content,$is_show);
-        redirect('/article/list');
+        $articleId = $model->insert($title,$content,$is_show);   
 
-    }
 
-    public function category()
-    {
-        view('article/category');
-    }
+        // 保存图片
+        $model -> uploadAll($_FILES);
 
-    public function categoryInsert()
-    {
-        $cat_name = $_POST['cat_name'];
-        $model = new Article;
-        $model->categoryInsert($cat_name);
-        redirect('/article/list');
+        // redirect('/article/list');
     }
 
     public function edit()
@@ -90,6 +82,21 @@ class ArticleController{
         $model = new Article;
         $id = $_GET['id'];
         $model->delete($id);
+        redirect('/article/list');
+    }
+
+
+    // ************文章分类模块*************
+    public function category()
+    {
+        view('article/category');
+    }
+
+    public function categoryInsert()
+    {
+        $cat_name = $_POST['cat_name'];
+        $model = new Article;
+        $model->categoryInsert($cat_name);
         redirect('/article/list');
     }
 }

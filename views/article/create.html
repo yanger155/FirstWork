@@ -75,7 +75,15 @@
                             </tr>
                             <tr>
                                 <th>缩略图：</th>
-                                <td><input type="file" name="image"></td>
+                                <td>
+                                    <input type="file" name="image"><br>
+                                    <input type="file" name="image[]"><br>
+                                    <input type="file" name="image[]">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>标题：</th>
+                                <td><input type="text" name="title" value=""></td>
                             </tr>
                             <tr>
                                 <th>内容：</th>
@@ -92,7 +100,7 @@
                                 <th></th>
                                 <td>
                                     <input class="btn btn-primary btn6 mr10" value="提交" type="submit">
-                                    <input class="btn btn6" onClick="history.go(-1)" value="返回" type="button">
+                                    <input  class="btn btn6" onClick="history.go(-1)" value="返回" type="button">
                                 </td>
                             </tr>
                         </tbody></table>
@@ -107,8 +115,11 @@
 </html>
 
 <!-- 任务：
+        预览图片
         上传多张图片
         批量上传
+        点击按钮添加上传域
+        点击删除删除上传域
  -->
 
 <!-- 预览图片 -->

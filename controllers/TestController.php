@@ -26,4 +26,12 @@ class TestController
         var_dump($result);
     }
 
+    public function makethumb()
+    {
+        // getimagesize 要求传入的是物理路径
+        // imagejpeg("图片资源");用来输出图片，而后来添加了第二个参数imagejpeg("图片资源"，"文件保存位置");这是保存图片
+        $model = new \libs\Thumb;
+        $model->thumbMake('D:\www\FirstWork\public\uploads\20181016\64c68258d517023557e90897fa4acbe0.jpg',150,150,'D:\www\FirstWork\public\uploads\20181016\thumb.jpg');
+    }
+
 }

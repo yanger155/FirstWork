@@ -13,13 +13,14 @@ class LoginController
     public function dologin()
     {
         // 接收数据
-        $username = $_POST['username'];
+        $phone = $_POST['phone'];
         $pwd = md5($_POST['password']);
 
         $model = new User;
         $result = $model->findUser($username);
         if($result)
         {
+            
             view('index/index');
         }
         else

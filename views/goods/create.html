@@ -96,7 +96,7 @@
                             <tr>
                                 <th><i class="require-red">*</i>分类名称</th>
                                 <td>
-                                    <input class="common-text required" id="title" name="title" size="50" value="" type="text">
+                                    <input class="common-text required" id="title" name="cat_name" size="50" value="" type="text">
                                 </td>
                             </tr>
                                 <th></th>
@@ -128,29 +128,70 @@
         // 获取输入框里的id
         var id = $(this).val()
       
-
+        // alert(id);
         // id值不能为空
         if(id != ""){
             $.ajax({
-                type:"GET",
-                url:"/goods/ajax_getCat?parent_id ="+id,
+                type:"get",
+                url:"/goods/ajax_getCat",
+                data: {parent_id:id},
                 dataType:"json",
                 success:function(data)
                 {
-                    //   alert(id);
+                    var str = '';
+                    if(data == "")
+                    {
+                        str += '<option value="">请选择</option>';
+                    }
+                    else
+                    {
+                        str += '<option value="">请选择</option>';
+                        for(var i=0;i<data.length;i++)
+                        {
+                            str += '<option value='+data[i].id+'>'+data[i].cat_name+'</option>';
+                            
+                        }
+                    }
+                    $('select[name=catid2]').html(str);
+                    $('select[name=catid2]').trigger('change');
+                    
+                }
+            });
+        }
+    });
+
+
+    $("select[name=catid2]").change(function(){
+        
+        var id = $(this).val();
+
+        if(id !="")
+        {
+            $.ajax({
+                type:"GET",
+                url:"/goods/ajax_getCat",
+                data:{parent_id:id},
+                dataType:"json",
+                success:function(data){
                     // console.log(data);
                     var str = '';
-                    for(var i=0;i<data.length;i++)
+                    if(data == "")
                     {
-                        str += '<option value='+data[i].id+'>'+data[i].cat_name+'</option>';
-                        
+                        str = '<option value="">请选择</option>';
                     }
-
-                    // alert(str);
-
-                    $('select[name=catid2]').html(str);
-                    $('select[name=catid2]').trigger('change'); 
+                    else
+                    {
+                        str += '<option value="">请选择</option>';
+                        for(var i=0;i<data.length;i++)
+                        {
+                            str += '<option value='+data[i].id+'>'+data[i].cat_name+'</option>'
+                        }
+                    }
+                    $('select[name=catid3]').html(str);
+                   
+                    
                 }
+
             });
         }
     });

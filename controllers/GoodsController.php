@@ -39,13 +39,48 @@ class GoodsController
 
     public function insert()
     {
-        
+        // echo "<pre>";
+        // var_dump($_POST);
+        // exit;
+        $parent_id = '';
+        $path = '';
+        $cat_name = $_POST['cat_name'];
+
+        if($_POST['catid1'] == "" && $_POST['catid2'] == "" && $_POST['catid3'] == "")
+        {
+            $parent_id = 0;
+            // $cat_name = $_POST['cat_name'];
+            $path = '-';
+        }
+        else if($_POST['catid2'] == "" && $_POST['catid3'] == "")
+        {
+            $parent_id = $_POST['catid1'];
+            // $cat_name = $_POST['cat_name'];
+            $path = '-'.$parent_id.'-';
+        }
+        else if($_POST['catid3'] == "")
+        {
+            $parent_id = $_POST['catid2'];
+            // $cat_name = $_POST['cat_name'];
+            $path = '-'.$_POST['catid1'].'-'.$_POST['catid2'].'-';
+        }
+        else
+        {
+            $parent_id = $_POST['catid3'];
+            // $cat_name = $_POST['catid3']
+            $path = '-'.$_POST['catid1'].'-'.$_POST['catid2'].'-'.$_POST['catid3'].'-';
+        }
+        $model = new Goods;
+        $model -> insert($cat_name,$parent_id,$path);
+        redirect('/goods/list');
+
     }
 
 
-    // 通过ajax获取的数据
+    // ajax三级联动
     public function ajax_getCat()
     {
+
         $parent_id = @(int)$_GET['parent_id'];
         $model = new Goods;
         $data = $model->getCat($parent_id);

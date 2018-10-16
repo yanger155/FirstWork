@@ -45,14 +45,24 @@ class Goods extends Model
     // 参数：上级分类的id  初始为0
     public function getCat($parent_id)
     {
+        // echo $parent_id;
         $stmt = self::$pdo->prepare("select * from goodscategory where parent_id = ?");
         $stmt->execute([
             $parent_id,
         ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    }
 
 
+    public function insert($cat_name,$parent_id,$path)
+    {
+        $stmt = self::$pdo->prepare("INSERT INTO goodscategory(cat_name,parent_id,path) VALUES(?,?,?)");
+        $stmt->execute([
+            $cat_name,
+            $parent_id,
+            $path
+        ]);
     }
 
 

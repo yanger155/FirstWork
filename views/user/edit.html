@@ -35,7 +35,7 @@
                 <li>
                     <a href="#"><i class="icon-font">&#xe003;</i>常用操作</a>
                     <ul class="sub-menu">
-                        <li><a href="design.html"><i class="icon-font">&#xe008;</i>商品管理</a></li>
+                        <li><a href="design.html"><i class="icon-font">&#xe008;</i>作品管理</a></li>
                        
                     </ul>
                 </li>
@@ -59,14 +59,34 @@
         </div>
         <div class="result-wrap">
             <div class="result-content">
-                <form action="/goods/insert" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <form action="/jscss/admin/design/add" method="post" id="myform" name="myform" enctype="multipart/form-data">
                     <table class="insert-tab" width="100%">
-                        <tbody>
+                        <tbody><tr>
+                            <th width="120"><i class="require-red">*</i>分类：</th>
+                            <td>
+                                <select name="colId" id="catid" class="required">
+                                    <option value="">请选择</option>
+                                    <option value="19">精品界面</option><option value="20">推荐界面</option>
+                                </select>
+                            </td>
+                        </tr>
                             <tr>
-                                <th><i class="require-red">*</i>分类名称</th>
+                                <th><i class="require-red">*</i>标题：</th>
                                 <td>
-                                    <input class="common-text required" id="title" name="cat_name" size="50" value="" type="text">
+                                    <input class="common-text required" id="title" name="title" size="50" value="" type="text">
                                 </td>
+                            </tr>
+                            <tr>
+                                <th>作者：</th>
+                                <td><input class="common-text" name="author" size="50" value="admin" type="text"></td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>缩略图：</th>
+                                <td><input name="smallimg" id="" type="file"><!--<input type="submit" onclick="submitForm('/jscss/admin/design/upload')" value="上传图片"/>--></td>
+                            </tr>
+                            <tr>
+                                <th>内容：</th>
+                                <td><textarea name="content" class="common-textarea" id="content" cols="30" style="width: 98%;" rows="10"></textarea></td>
                             </tr>
                             <tr>
                                 <th></th>
@@ -85,88 +105,3 @@
 </div>
 </body>
 </html>
-<script type="text/javascript" src="/js/jquery.min.js" ></script>
-<script type="text/javascript" src="/js/common.js" ></script>
-<script>
-
-
-    // 当一级分类项被选中的时候，触发ajax
-    $("select[name=catid1]").change(function(){
-
-        // alert('aaaa');
-
-        // 获取输入框里的id
-        var id = $(this).val()
-      
-        // alert(id);
-        // id值不能为空
-        if(id != ""){
-            $.ajax({
-                type:"get",
-                url:"/goods/ajax_getCat",
-                data: {parent_id:id},
-                dataType:"json",
-                success:function(data)
-                {
-                    var str = '';
-                    if(data == "")
-                    {
-                        str += '<option value="">请选择</option>';
-                    }
-                    else
-                    {
-                        str += '<option value="">请选择</option>';
-                        for(var i=0;i<data.length;i++)
-                        {
-                            str += '<option value='+data[i].id+'>'+data[i].cat_name+'</option>';
-                            
-                        }
-                    }
-
-                    // console.log(str);
-                    $('select[name=catid2]').html(str);
-                    $('select[name=catid2]').trigger('change');
-                    
-                }
-            });
-        }
-    });
-
-
-    $("select[name=catid2]").change(function(){
-        
-        var id = $(this).val();
-
-        if(id !="")
-        {
-            $.ajax({
-                type:"GET",
-                url:"/goods/ajax_getCat",
-                data:{parent_id:id},
-                dataType:"json",
-                success:function(data){
-                    // console.log(data);
-                    var str = '';
-                    if(data == "")
-                    {
-                        str = '<option value="">请选择</option>';
-                    }
-                    else
-                    {
-                        str += '<option value="">请选择</option>';
-                        for(var i=0;i<data.length;i++)
-                        {
-                            str += '<option value='+data[i].id+'>'+data[i].cat_name+'</option>'
-                        }
-                    }
-                    $('select[name=catid3]').html(str);
-                   
-                    
-                }
-
-            });
-        }
-    });
-   
-
-</script>

@@ -25,25 +25,49 @@ class GoodsController
         
     }
 
-
     public function create()
+    {
+        view('goods/create');
+    }
+
+
+    public function insert()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function update()
+    {
+        
+    }
+
+
+    public function category()
     {
         $model = new Goods;
         $data = $model->getCat($parent_id = 0);
+        // echo "<pre>";
         // var_dump($data);
         // exit;
-        view('goods/create',[
+        view('goods/category',[
             'data' => $data
         ]);
     }
 
-    public function insert()
+    public function categoryInsert()
     {
-        // echo "<pre>";
-        // var_dump($_POST);
-        // exit;
+        echo "<pre>";
+        var_dump($_POST);
+        exit;
+        
         $parent_id = '';
         $path = '';
+
         $cat_name = $_POST['cat_name'];
 
         if($_POST['catid1'] == "" && $_POST['catid2'] == "" && $_POST['catid3'] == "")
@@ -72,7 +96,7 @@ class GoodsController
         }
         $model = new Goods;
         $model -> insert($cat_name,$parent_id,$path);
-        redirect('/goods/list');
+        redirect('goods/list');
 
     }
 

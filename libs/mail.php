@@ -3,12 +3,14 @@ namespace libs;
 
 class Mail
 {
+
+    // 发邮件
     public function send()
     {
         // Create the Transport
         $transport = (new Swift_SmtpTransport('smtp.qq.com', 25))
         ->setUsername('3491944683@qq.com')
-        ->setPassword('saspttrujadkdbjc')
+        ->setPassword('saspttrujadkdbjc')   //授权码
         ;
 
         // Create the Mailer using your created Transport
